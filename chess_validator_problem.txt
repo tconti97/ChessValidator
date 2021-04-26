@@ -1,0 +1,72 @@
+Your coding challenge is to write a basic chess move validator that can determine if, given a starting board state, the piece at a given rank and file could move to the stated rank and file. You may use any programming language you prefer. The specific details regarding input & output will be covered in the next section. Your program should ignore turns, en passant, check, and checkmate when validating moves. Other chess fundamentals, such as capturing and interposing pieces blocking capture for non-knights, should be supported. For example, from the standard starting board state, the move C7->C6 is valid, while C8->E6 is not. A move should be considered invalid if there is no piece at the given starting position.
+
+The program should accept two files via the command line - the first file will contain the input board states, and the second file will contain the moves to be checked against the board states. The program should output to the standard output - "OK" if a move is valid, and "NO GOOD" if it is not. An example of both files is provided here, as well as documentation of their formatting. The expected format for the output is documented here as well. The input file formats will be in plain text.
+
+Board:
+Pieces will be represented by lowercase letters, distinguishing between black and white pieces. An empty space will be denoted with a period, and the board will always be from white's perspective. The file will contain multiple boards, each followed by single empty line. The last line of the file will be the text "END" on its own line. In detail:
+i = black rook
+j = black knight
+k = black bishop
+l = black queen
+m = black king
+o = black pawn
+p = white rook
+q = white knight
+r = white bishop
+s = white queen
+t = white king
+u = white pawn
+
+Thus an input file containing three copies of the standard chess starting board would be:
+ijklmkji
+oooooooo
+........
+........
+........
+........
+uuuuuuuu
+pqrstrqp
+
+ijklmkji
+oooooooo
+........
+........
+........
+........
+uuuuuuuu
+pqrstrqp
+
+ijklmkji
+oooooooo
+........
+........
+........
+........
+uuuuuuuu
+pqrstrqp
+
+END
+
+Moves:
+A move to be validated will be of the form "XA->YB", where "XA" is the rank (X) and file (A) of the piece that is being moved to "YB", where again "YB" is the rank (Y) and the file (B) of the intended destination. Ranks and files will conform to standard notation from white's perspective, ie: ranks A through H and files 1 through 8, where A8 is the upper left corner and H1 is the bottom right corner. Ranks will always be given as upper case letters. Each line of the input will contain a set of moves, with each move followed by a comma. Each set of moves should be evaluated against the corresponding board in the board input file - the first set of moves against the first board, the second set of moves against the second board, and so on. Each move in a set should be validated independent of the others - the board state is constant, and remains unaffected by the moves given. The last line of the file will be the text "END" on its own line.
+
+Thus, an input file containing three sets of moves would be:
+A8->A1,E8->E7,G8->F6,
+C2->C3,C5->C4,
+D2->D4,D8->D1,G1->E4,
+END
+
+Output:
+The program should output to the standard output device. If a move being evaluated is valid, the program should print "OK" on its own line. If it is invalid, the program should print "NO GOOD" on its own line. Which switching to a new board state and move set, the program should output a newline. If there are no more board states and move sets, the program should end.
+
+Thus, the expected output given the above board and move input files:
+NO GOOD
+NO GOOD
+OK
+
+OK
+NO GOOD
+
+OK
+NO GOOD
+NO GOOD
