@@ -661,7 +661,6 @@ int setPositionY(char pos)
 
 int main(int argc, char **argv)
 {
-    cout << "Hello1" << endl;
     if(argc != 3)
     {
         cout << "Invalid number of arguments!";
