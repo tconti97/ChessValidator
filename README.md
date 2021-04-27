@@ -20,7 +20,7 @@ chessBoardReference.png is an image I created to help visualize the layout of th
 
 When running with arguments in a compiler or via commandline, make sure that there are only 3 arguments, program will return "Invalid number of arguments!" and the program will end without testing the files.
 
-Using powershell, I tested the states using > .\main board_states.txt move_sets.txt
+Using powershell terminal in vscode, I tested the states using > .\main board_states.txt move_sets.txt
 main is the first arg, board_states is the second, and move_sets is the third.
 
 For the given board_states.txt and move_sets.txt, this is the output I generated:

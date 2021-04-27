@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Base Class Piece
+// Piece Class used to indicate if a piece is black or white and what type of piece, if any, is on the board.
 class Piece
 {
 private:
@@ -42,30 +42,30 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
     {
         if(isWhite)
         {
-            if(board[locY][locX].getPieceType() == "NULL" && (locX == posX && locY == posY - 1))
+            if(board[locY][locX].getPieceType() == "NULL" && (locX == posX && locY == posY - 1)) // white pawn moves forward one space to an empty square
             {
                 return true;
             }
-            else if(posY == 6 && board[locY][locX].getPieceType() == "NULL" && board[locY - 1][locX].getPieceType() == "NULL" && (locX == posX && locY == posY - 2))
+            else if(posY == 6 && board[locY][locX].getPieceType() == "NULL" && board[locY - 1][locX].getPieceType() == "NULL" && (locX == posX && locY == posY - 2)) // first white pawn move, two squares
             {
                 return true;
             }
-            else if(((locX == posX + 1 && locY == posY - 1) || (locX == posX - 1 && locY == posY - 1)) && board[locY][locX].getIsWhite() == !isWhite && board[locY][locX].getPieceType() != "NULL")
+            else if(((locX == posX + 1 && locY == posY - 1) || (locX == posX - 1 && locY == posY - 1)) && board[locY][locX].getIsWhite() == !isWhite && board[locY][locX].getPieceType() != "NULL") // white pawn to take black piece at either forward diagonal
             {
                 return true;
             }
         }
         else // isWhite false -> piece is black
         {
-            if(board[locY][locX].getPieceType() == "NULL" && (locX == posX && locY == posY + 1))
+            if(board[locY][locX].getPieceType() == "NULL" && (locX == posX && locY == posY + 1)) // black pawn moves forward one space to an empty square
             {
                 return true;
             }
-            else if(posY == 1 && board[locY][locX].getPieceType() == "NULL" && board[locY + 1][locX].getPieceType() == "NULL" && (locX == posX && locY == posY + 2))
+            else if(posY == 1 && board[locY][locX].getPieceType() == "NULL" && board[locY + 1][locX].getPieceType() == "NULL" && (locX == posX && locY == posY + 2)) // first black pawn move, two squares
             {
                 return true;
             }
-            else if(((locX == posX - 1 && locY == posY + 1) || (locX == posX + 1 && locY == posY + 1)) && board[locY][locX].getIsWhite() == !isWhite && board[locY][locX].getPieceType() != "NULL")
+            else if(((locX == posX - 1 && locY == posY + 1) || (locX == posX + 1 && locY == posY + 1)) && board[locY][locX].getIsWhite() == !isWhite && board[locY][locX].getPieceType() != "NULL") // black pawn to take white piece at either forward diagonal
             {
                 return true;
             }
@@ -73,18 +73,18 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
     }
     else if(pieceType == "Knight")
     {
-        if(abs(posX - locX) == 1 && abs(posY - locY) == 2 || abs(posX - locX) == 2 && abs(posY - locY) == 1)
+        if(abs(posX - locX) == 1 && abs(posY - locY) == 2 || abs(posX - locX) == 2 && abs(posY - locY) == 1) // checks to see the location to be moved in is a distance of 1 in one direction and 2 in another.
         {
             return true;
         }
     }
     else if(pieceType == "Bishop")
     {
-        if(posX == locX || posY == locY)
+        if(posX == locX || posY == locY) // if pos and loc are in the same rank or file, Bishop can't move that way
         {
             return false;
         }
-        else if(abs(posX - locX) == abs(posY - locY))
+        else if(abs(posX - locX) == abs(posY - locY)) // check to see if loc shares a diagonal with pos.
         {
             if(posX < locX)
             {
@@ -92,7 +92,7 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
                 {
                     for(int i = 1; i < abs(posX - locX); i++)
                     {
-                        if(board[posY + i][posX + i].getPieceType() == "NULL")
+                        if(board[posY + i][posX + i].getPieceType() == "NULL") // checks spaces between pos and loc to make sure nothing is blocking
                         {
                             continue;
                         }
@@ -101,7 +101,7 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
                             return false;
                         }
                     }
-                    if(board[locY][locX].getPieceType() == "NULL" || board[locY][locX].getIsWhite() == !isWhite)
+                    if(board[locY][locX].getPieceType() == "NULL" || board[locY][locX].getIsWhite() == !isWhite) // if piece @ loc is of opposite color of bishop or if space is empty, it can move there.
                     {
                         return true;
                     }
@@ -168,13 +168,13 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
     }
     else if(pieceType == "Rook")
     {       
-        if(posX == locX && posY != locY)
+        if(posX == locX && posY != locY) // Rook and loc are on same horizontal
         {
-            if(posY > locY)
+            if(posY > locY) // Determine direction of loc from pos
             {
                 for(int i = 1; i < abs(posY - locY); i++)
                 {
-                    if(board[posY - i][locX].getPieceType() == "NULL")
+                    if(board[posY - i][locX].getPieceType() == "NULL") // Pieces between pos and loc should be empty
                     {
                         continue;
                     }
@@ -207,7 +207,7 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
                 }
             }
         }
-        else if(posX != locX && posY == locY)
+        else if(posX != locX && posY == locY) // Rook and loc are on same vertical
         {
             if(posX > locX)
             {
@@ -247,7 +247,7 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
             }
         }
     }
-    else if(pieceType == "Queen")
+    else if(pieceType == "Queen") // Queen is a mashup of the Bishop and Rook validations. 
     {
         if(posX == locX && posY != locY)
         {
@@ -431,6 +431,7 @@ bool Piece::validateMove(int posX, int posY, int locX, int locY, Piece board[][8
             {
                 return true;
             }
+        // King moves 1 space in any direction
         else if(abs(posX - locX) <= 1 && abs(posY - locY) <= 1)
         {
             return true;
@@ -448,188 +449,8 @@ string Piece::getPieceType()
 {
     return pieceType;
 }
-/*
-// Pawn Class, Child of Piece
-class Pawn: public Piece
-{
-public:
-    Pawn();
-    Pawn(bool);
-    bool validateMove(int, int, int, int, Piece[][8]) override;
-};
 
-Pawn::Pawn() : Piece(true){pieceType = "Pawn";}
-
-Pawn::Pawn(bool inWhite)
-{
-    isWhite = inWhite;
-    pieceType = "Pawn";
-}
-
-bool Pawn::validateMove(int posX, int posY, int locX, int locY, Piece board[][8])
-{
-    //if pawn is white
-    if(isWhite)
-    {
-        if(board[locX][locY].getPieceType() == "NULL" && (locX == posX + 1 && locY == posY))
-        {
-            return true;
-        }
-        else if(posX == 6 && board[locX][locY].getPieceType() == "NULL" && board[locX - 1][locY].getPieceType() == "NULL" && (locX == posX + 2 && locY == posY))
-        {
-            return true;
-        }
-        else if(((locX == posX + 1 && locY == posY - 1) || (locX == posX + 1 && locY == posY + 1)) && board[locX][locY].getIsWhite() == !isWhite && board[locX][locY].getPieceType() != "NULL")
-        {
-            return true;
-        }
-    }
-    else // isWhite false -> piece is black
-    {
-        if(board[locX][locY].getPieceType() == "NULL" && (locX == posX - 1 && locY == posY))
-        {
-            return true;
-        }
-        else if(posX == 1 && board[locX][locY].getPieceType() == "NULL" && board[locX + 1][locY].getPieceType() == "NULL" && (locX == posX - 2 && locY == posY))
-        {
-            return true;
-        }
-        else if(((locX == posX - 1 && locY == posY - 1) || (locX == posX - 1 && locY == posY + 1)) && board[locX][locY].getIsWhite() == !isWhite && board[locX][locY].getPieceType() != "NULL")
-        {
-            return true;
-        }
-    }
-
-    //if space in front is NULL || if diagonal, must be !isWhite
-    return false;
-}
-
-// Knight Class, Child of Piece
-class Knight: public Piece
-{
-public:
-    Knight();
-    Knight(bool);
-    bool validateMove(int, int, int, int, Piece[][8]) override;
-};
-
-Knight::Knight() : Piece(true){pieceType = "Knight";}
-
-Knight::Knight(bool inWhite)
-{
-    isWhite = inWhite;
-    pieceType = "Knight";
-}
-
-bool Knight::validateMove(int posX, int posY, int locX, int locY, Piece board[][8])
-{
-    //if knight is @ location
-
-    //determine available spaces based on if NULL || has piece with !isWhite
-    return true;
-}
-
-// Bishop Class, Child of Piece
-class Bishop: public Piece
-{
-public:
-    Bishop();
-    Bishop(bool);
-    bool validateMove(int, int, int, int, Piece[][8]) override;
-};
-
-Bishop::Bishop() : Piece(true){pieceType = "Bishop";}
-
-Bishop::Bishop(bool inWhite)
-{
-    isWhite = inWhite;
-    pieceType = "Bishop";
-}
-
-bool Bishop::validateMove(int posX, int posY, int locX, int locY, Piece board[][8])
-{
-    //if bishop is @ location
-
-    //determine available spaces based on if NULL and being blocked by other pieces || has piece with !isWhite
-    return true;
-}
-
-// Rook Class, Child of Piece
-class Rook: public Piece
-{
-public:
-    Rook();
-    Rook(bool);
-    bool validateMove(int, int, int, int, Piece[][8]) override;
-};
-
-Rook::Rook() : Piece(true){pieceType = "Rook";}
-
-Rook::Rook(bool inWhite)
-{
-    isWhite = inWhite;
-    pieceType = "Rook";
-}
-
-bool Rook::validateMove(int posX, int posY, int locX, int locY, Piece board[][8])
-{
-    //if rook is @ location
-
-    //determine available spaces based on if NULL and being blocked by other pieces || has piece with !isWhite
-    return true;
-}
-
-// Queen Class, Child of Piece
-class Queen: public Piece
-{
-public:
-    Queen();
-    Queen(bool);
-    bool validateMove(int, int, int, int, Piece[][8]) override;
-};
-
-Queen::Queen() : Piece(true){pieceType = "Queen";}
-
-Queen::Queen(bool inWhite)
-{
-    isWhite = inWhite;
-    pieceType = "Queen";
-}
-
-bool Queen::validateMove(int posX, int posY, int locX, int locY, Piece board[][8])
-{
-    //if queen is @ location
-
-    //determine available spaces based on if NULL and being blocked by other pieces || has piece with !isWhite
-    return true;
-}
-
-// King Class, Child of Piece
-class King: public Piece
-{
-public:
-    King();
-    King(bool);
-    bool validateMove(int, int, int, int, Piece[][8]) override;
-};
-
-King::King() : Piece(true){pieceType = "King";}
-
-King::King(bool inWhite)
-{
-    isWhite = inWhite;
-    pieceType = "King";
-}
-
-bool King::validateMove(int posX, int posY, int locX, int locY, Piece board[][8])
-{
-    //if king is @ location
-
-    //determine available spaces based on if NULL and being blocked by other pieces || has piece with !isWhite
-    return true;
-}
-*/
-int setPositionX(char pos)
+int setPositionX(char pos) 
 {
     switch(pos){
         case 'A': return 0;
@@ -672,25 +493,23 @@ int main(int argc, char **argv)
     filename = argv[2];
     ifstream moves(filename);
 
-
-    //states = 
-    Piece board[8][8];
+    Piece board[8][8]; // 8x8 2d Array of pieces that are used to mimic a chess board. see chessBoardReference.png
     int file = 0;
     string line = "";
     string move = "";
 
-    while(getline(states, line))
+    while(getline(states, line)) // reads lines of the board states file
     {
         if(line == "END")
         {
             break;
         }
-        else if(line == "\n" || line == "")
+        else if(line == "\n" || line == "") // skips blank lines
         {
             continue;
         }
 
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 8; i++) // initializes pieces on the board based on the char from the string obtained via getline
         {
             //black pieces
             if(line[i] == 'i') board[file][i] = Piece(false, "Rook");
@@ -707,7 +526,7 @@ int main(int argc, char **argv)
             else if(line[i] == 's') board[file][i] = Piece(true, "Queen");
             else if(line[i] == 't') board[file][i] = Piece(true, "King");
             else if(line[i] == 'u') board[file][i] = Piece(true, "Pawn");
-            else board[file][i] = Piece(false, "NULL");
+            else board[file][i] = Piece(false, "NULL"); //represents an empty square
         }
         file++;
         if(file < 8)
@@ -718,14 +537,14 @@ int main(int argc, char **argv)
         int x1 = 99, y1 = 99, x2 = 99, y2 = 99, begin = 0, pos = 0;
         string moveToTest = "";
 
-        getline(moves, move);
-        while((pos = move.find(",", begin)) != string::npos)
+        getline(moves, move); // reads line from move sets
+        while((pos = move.find(",", begin)) != string::npos) // looks at part of string between start point and next ',' which is the length of 1 move
         {
             moveToTest = move.substr(begin, pos-begin);
             begin = pos + 1;
-            for(int j = 0; j < moveToTest.length(); j++)
+            for(int j = 0; j < moveToTest.length(); j++) // pos is set first, when x1 and y1 are 99, then the loc.
             {
-                if(moveToTest[j] == '-' || moveToTest[j] == '>')
+                if(moveToTest[j] == '-' || moveToTest[j] == '>') 
                 {
                     continue;
                 }
@@ -755,6 +574,7 @@ int main(int argc, char **argv)
             {
                 cout << "NO GOOD" << endl;
             }
+            // set values back to 99 so they can be set again in order
             y1 = 99;
             x1 = 99;
             y2 = 99;
